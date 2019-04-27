@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7bf3ab71d23540f18490967af822e380" Name="Diagram1">
+        <EntityTypeShape EntityType="DB47Model.Course" Width="1.5" PointX="0.75" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB47Model.Fee" Width="1.5" PointX="5.25" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB47Model.Instructor" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB47Model.MCQ" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB47Model.Person" Width="1.5" PointX="0.75" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB47Model.Result" Width="1.5" PointX="5.25" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB47Model.Student" Width="1.5" PointX="3" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB47Model.StudentEnrolled" Width="1.5" PointX="8.25" PointY="7.75" IsExpanded="true" />
+        <AssociationConnector Association="DB47Model.FK_Fee_Course" ManuallyRouted="false" />
+        <AssociationConnector Association="DB47Model.FK_MCQ_Course" ManuallyRouted="false" />
+        <AssociationConnector Association="DB47Model.FK_StudentEnrolled_Course" ManuallyRouted="false" />
+        <AssociationConnector Association="DB47Model.FK_Fee_Student" ManuallyRouted="false" />
+        <AssociationConnector Association="DB47Model.FK_Instructor_Person" ManuallyRouted="false" />
+        <AssociationConnector Association="DB47Model.FK_Result_Instructor" ManuallyRouted="false" />
+        <AssociationConnector Association="DB47Model.FK_MCQ_MCQ" ManuallyRouted="false" />
+        <AssociationConnector Association="DB47Model.FK_Result_MCQ" ManuallyRouted="false" />
+        <AssociationConnector Association="DB47Model.FK_Student_Person" ManuallyRouted="false" />
+        <AssociationConnector Association="DB47Model.FK_Result_Student" ManuallyRouted="false" />
+        <AssociationConnector Association="DB47Model.FK_StudentEnrolled_Student" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

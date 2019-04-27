@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DB47Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Course">
+    <Key>
+      <PropertyRef Name="CId" />
+    </Key>
+    <Property Name="CId" Type="int" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Credits" Type="int" Nullable="false" />
+    <Property Name="Term" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Fee" Type="money" Nullable="false" />
+    <Property Name="Duration" Type="int" Nullable="false" />
+    <Property Name="StartTime" Type="time" Precision="7" Nullable="false" />
+    <Property Name="EndTime" Type="time" Precision="7" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Fee">
+    <Key>
+      <PropertyRef Name="FId" />
+    </Key>
+    <Property Name="FId" Type="int" Nullable="false" />
+    <Property Name="SId" Type="int" Nullable="false" />
+    <Property Name="CId" Type="int" Nullable="false" />
+    <Property Name="Status" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Instructor">
+    <Key>
+      <PropertyRef Name="InId" />
+    </Key>
+    <Property Name="InId" Type="int" Nullable="false" />
+    <Property Name="Pid" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MCQ">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="CId" Type="int" Nullable="false" />
+    <Property Name="QuesNo" Type="int" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Option1" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Option2" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Option3" Type="nvarchar(max)" />
+    <Property Name="Option4" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Person">
+    <Key>
+      <PropertyRef Name="PId" />
+    </Key>
+    <Property Name="PId" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="CNIC" Type="int" Nullable="false" />
+    <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DOB" Type="date" Nullable="false" />
+    <Property Name="ContactNo" Type="int" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Status" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Result">
+    <Key>
+      <PropertyRef Name="RId" />
+    </Key>
+    <Property Name="RId" Type="int" Nullable="false" />
+    <Property Name="SId" Type="int" Nullable="false" />
+    <Property Name="InId" Type="int" Nullable="false" />
+    <Property Name="Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Student">
+    <Key>
+      <PropertyRef Name="SId" />
+    </Key>
+    <Property Name="SId" Type="int" Nullable="false" />
+    <Property Name="PId" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'DB47.dbo.StudentEnrolled' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="StudentEnrolled">
+    <Key>
+      <PropertyRef Name="CId" />
+      <PropertyRef Name="SId" />
+      <PropertyRef Name="Status" />
+    </Key>
+    <Property Name="CId" Type="int" Nullable="false" />
+    <Property Name="SId" Type="int" Nullable="false" />
+    <Property Name="Status" Type="bit" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Fee_Course">
+    <End Role="Course" Type="Self.Course" Multiplicity="1" />
+    <End Role="Fee" Type="Self.Fee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Course">
+        <PropertyRef Name="CId" />
+      </Principal>
+      <Dependent Role="Fee">
+        <PropertyRef Name="CId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Fee_Student">
+    <End Role="Student" Type="Self.Student" Multiplicity="1" />
+    <End Role="Fee" Type="Self.Fee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="SId" />
+      </Principal>
+      <Dependent Role="Fee">
+        <PropertyRef Name="SId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Instructor_Person">
+    <End Role="Person" Type="Self.Person" Multiplicity="1" />
+    <End Role="Instructor" Type="Self.Instructor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="PId" />
+      </Principal>
+      <Dependent Role="Instructor">
+        <PropertyRef Name="Pid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MCQ_Course">
+    <End Role="Course" Type="Self.Course" Multiplicity="1" />
+    <End Role="MCQ" Type="Self.MCQ" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Course">
+        <PropertyRef Name="CId" />
+      </Principal>
+      <Dependent Role="MCQ">
+        <PropertyRef Name="CId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MCQ_MCQ">
+    <End Role="MCQ" Type="Self.MCQ" Multiplicity="1" />
+    <End Role="MCQ1" Type="Self.MCQ" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="MCQ">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MCQ1">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Result_Instructor">
+    <End Role="Instructor" Type="Self.Instructor" Multiplicity="1" />
+    <End Role="Result" Type="Self.Result" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Instructor">
+        <PropertyRef Name="InId" />
+      </Principal>
+      <Dependent Role="Result">
+        <PropertyRef Name="InId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Result_MCQ">
+    <End Role="MCQ" Type="Self.MCQ" Multiplicity="1" />
+    <End Role="Result" Type="Self.Result" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MCQ">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Result">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Result_Student">
+    <End Role="Student" Type="Self.Student" Multiplicity="1" />
+    <End Role="Result" Type="Self.Result" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="SId" />
+      </Principal>
+      <Dependent Role="Result">
+        <PropertyRef Name="SId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Student_Person">
+    <End Role="Person" Type="Self.Person" Multiplicity="1" />
+    <End Role="Student" Type="Self.Student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="PId" />
+      </Principal>
+      <Dependent Role="Student">
+        <PropertyRef Name="PId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StudentEnrolled_Course">
+    <End Role="Course" Type="Self.Course" Multiplicity="1" />
+    <End Role="StudentEnrolled" Type="Self.StudentEnrolled" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Course">
+        <PropertyRef Name="CId" />
+      </Principal>
+      <Dependent Role="StudentEnrolled">
+        <PropertyRef Name="CId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StudentEnrolled_Student">
+    <End Role="Student" Type="Self.Student" Multiplicity="1" />
+    <End Role="StudentEnrolled" Type="Self.StudentEnrolled" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="SId" />
+      </Principal>
+      <Dependent Role="StudentEnrolled">
+        <PropertyRef Name="SId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DB47ModelStoreContainer">
+    <EntitySet Name="Course" EntityType="Self.Course" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Fee" EntityType="Self.Fee" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Instructor" EntityType="Self.Instructor" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MCQ" EntityType="Self.MCQ" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Result" EntityType="Self.Result" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StudentEnrolled" EntityType="Self.StudentEnrolled" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [StudentEnrolled].[CId] AS [CId], 
+    [StudentEnrolled].[SId] AS [SId], 
+    [StudentEnrolled].[Status] AS [Status]
+    FROM [dbo].[StudentEnrolled] AS [StudentEnrolled]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_Fee_Course" Association="Self.FK_Fee_Course">
+      <End Role="Course" EntitySet="Course" />
+      <End Role="Fee" EntitySet="Fee" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Fee_Student" Association="Self.FK_Fee_Student">
+      <End Role="Student" EntitySet="Student" />
+      <End Role="Fee" EntitySet="Fee" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Instructor_Person" Association="Self.FK_Instructor_Person">
+      <End Role="Person" EntitySet="Person" />
+      <End Role="Instructor" EntitySet="Instructor" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MCQ_Course" Association="Self.FK_MCQ_Course">
+      <End Role="Course" EntitySet="Course" />
+      <End Role="MCQ" EntitySet="MCQ" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MCQ_MCQ" Association="Self.FK_MCQ_MCQ">
+      <End Role="MCQ" EntitySet="MCQ" />
+      <End Role="MCQ1" EntitySet="MCQ" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Result_Instructor" Association="Self.FK_Result_Instructor">
+      <End Role="Instructor" EntitySet="Instructor" />
+      <End Role="Result" EntitySet="Result" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Result_MCQ" Association="Self.FK_Result_MCQ">
+      <End Role="MCQ" EntitySet="MCQ" />
+      <End Role="Result" EntitySet="Result" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Result_Student" Association="Self.FK_Result_Student">
+      <End Role="Student" EntitySet="Student" />
+      <End Role="Result" EntitySet="Result" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Student_Person" Association="Self.FK_Student_Person">
+      <End Role="Person" EntitySet="Person" />
+      <End Role="Student" EntitySet="Student" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StudentEnrolled_Course" Association="Self.FK_StudentEnrolled_Course">
+      <End Role="Course" EntitySet="Course" />
+      <End Role="StudentEnrolled" EntitySet="StudentEnrolled" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StudentEnrolled_Student" Association="Self.FK_StudentEnrolled_Student">
+      <End Role="Student" EntitySet="Student" />
+      <End Role="StudentEnrolled" EntitySet="StudentEnrolled" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

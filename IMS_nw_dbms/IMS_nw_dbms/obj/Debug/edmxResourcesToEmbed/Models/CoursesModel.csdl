@@ -1,0 +1,293 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DB47Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Course">
+    <Key>
+      <PropertyRef Name="CId" />
+    </Key>
+    <Property Name="CId" Type="Int32" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Credits" Type="Int32" Nullable="false" />
+    <Property Name="Term" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Fee" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="Duration" Type="Int32" Nullable="false" />
+    <Property Name="StartTime" Type="Time" Nullable="false" Precision="7" />
+    <Property Name="EndTime" Type="Time" Nullable="false" Precision="7" />
+    <NavigationProperty Name="Fees" Relationship="Self.FK_Fee_Course" FromRole="Course" ToRole="Fee" />
+    <NavigationProperty Name="MCQs" Relationship="Self.FK_MCQ_Course" FromRole="Course" ToRole="MCQ" />
+    <NavigationProperty Name="StudentEnrolleds" Relationship="Self.FK_StudentEnrolled_Course" FromRole="Course" ToRole="StudentEnrolled" />
+  </EntityType>
+  <EntityType Name="Fee">
+    <Key>
+      <PropertyRef Name="FId" />
+    </Key>
+    <Property Name="FId" Type="Int32" Nullable="false" />
+    <Property Name="SId" Type="Int32" Nullable="false" />
+    <Property Name="CId" Type="Int32" Nullable="false" />
+    <Property Name="Status" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Course" Relationship="Self.FK_Fee_Course" FromRole="Fee" ToRole="Course" />
+    <NavigationProperty Name="Student" Relationship="Self.FK_Fee_Student" FromRole="Fee" ToRole="Student" />
+  </EntityType>
+  <EntityType Name="Instructor">
+    <Key>
+      <PropertyRef Name="InId" />
+    </Key>
+    <Property Name="InId" Type="Int32" Nullable="false" />
+    <Property Name="Pid" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Person" Relationship="Self.FK_Instructor_Person" FromRole="Instructor" ToRole="Person" />
+    <NavigationProperty Name="Results" Relationship="Self.FK_Result_Instructor" FromRole="Instructor" ToRole="Result" />
+  </EntityType>
+  <EntityType Name="MCQ">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="CId" Type="Int32" Nullable="false" />
+    <Property Name="QuesNo" Type="Int32" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Option1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Option2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Option3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Option4" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Course" Relationship="Self.FK_MCQ_Course" FromRole="MCQ" ToRole="Course" />
+    <NavigationProperty Name="MCQ1" Relationship="Self.FK_MCQ_MCQ" FromRole="MCQ" ToRole="MCQ1" />
+    <NavigationProperty Name="MCQ2" Relationship="Self.FK_MCQ_MCQ" FromRole="MCQ1" ToRole="MCQ" />
+    <NavigationProperty Name="Results" Relationship="Self.FK_Result_MCQ" FromRole="MCQ" ToRole="Result" />
+  </EntityType>
+  <EntityType Name="Person">
+    <Key>
+      <PropertyRef Name="PId" />
+    </Key>
+    <Property Name="PId" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CNIC" Type="Int32" Nullable="false" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DOB" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="ContactNo" Type="Int32" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Status" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Instructors" Relationship="Self.FK_Instructor_Person" FromRole="Person" ToRole="Instructor" />
+    <NavigationProperty Name="Students" Relationship="Self.FK_Student_Person" FromRole="Person" ToRole="Student" />
+  </EntityType>
+  <EntityType Name="Result">
+    <Key>
+      <PropertyRef Name="RId" />
+    </Key>
+    <Property Name="RId" Type="Int32" Nullable="false" />
+    <Property Name="SId" Type="Int32" Nullable="false" />
+    <Property Name="InId" Type="Int32" Nullable="false" />
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Instructor" Relationship="Self.FK_Result_Instructor" FromRole="Result" ToRole="Instructor" />
+    <NavigationProperty Name="MCQ" Relationship="Self.FK_Result_MCQ" FromRole="Result" ToRole="MCQ" />
+    <NavigationProperty Name="Student" Relationship="Self.FK_Result_Student" FromRole="Result" ToRole="Student" />
+  </EntityType>
+  <EntityType Name="Student">
+    <Key>
+      <PropertyRef Name="SId" />
+    </Key>
+    <Property Name="SId" Type="Int32" Nullable="false" />
+    <Property Name="PId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Fees" Relationship="Self.FK_Fee_Student" FromRole="Student" ToRole="Fee" />
+    <NavigationProperty Name="Person" Relationship="Self.FK_Student_Person" FromRole="Student" ToRole="Person" />
+    <NavigationProperty Name="Results" Relationship="Self.FK_Result_Student" FromRole="Student" ToRole="Result" />
+    <NavigationProperty Name="StudentEnrolleds" Relationship="Self.FK_StudentEnrolled_Student" FromRole="Student" ToRole="StudentEnrolled" />
+  </EntityType>
+  <EntityType Name="StudentEnrolled">
+    <Key>
+      <PropertyRef Name="CId" />
+      <PropertyRef Name="SId" />
+      <PropertyRef Name="Status" />
+    </Key>
+    <Property Name="CId" Type="Int32" Nullable="false" />
+    <Property Name="SId" Type="Int32" Nullable="false" />
+    <Property Name="Status" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Course" Relationship="Self.FK_StudentEnrolled_Course" FromRole="StudentEnrolled" ToRole="Course" />
+    <NavigationProperty Name="Student" Relationship="Self.FK_StudentEnrolled_Student" FromRole="StudentEnrolled" ToRole="Student" />
+  </EntityType>
+  <Association Name="FK_Fee_Course">
+    <End Role="Course" Type="Self.Course" Multiplicity="1" />
+    <End Role="Fee" Type="Self.Fee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Course">
+        <PropertyRef Name="CId" />
+      </Principal>
+      <Dependent Role="Fee">
+        <PropertyRef Name="CId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MCQ_Course">
+    <End Role="Course" Type="Self.Course" Multiplicity="1" />
+    <End Role="MCQ" Type="Self.MCQ" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Course">
+        <PropertyRef Name="CId" />
+      </Principal>
+      <Dependent Role="MCQ">
+        <PropertyRef Name="CId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StudentEnrolled_Course">
+    <End Role="Course" Type="Self.Course" Multiplicity="1" />
+    <End Role="StudentEnrolled" Type="Self.StudentEnrolled" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Course">
+        <PropertyRef Name="CId" />
+      </Principal>
+      <Dependent Role="StudentEnrolled">
+        <PropertyRef Name="CId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Fee_Student">
+    <End Role="Student" Type="Self.Student" Multiplicity="1" />
+    <End Role="Fee" Type="Self.Fee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="SId" />
+      </Principal>
+      <Dependent Role="Fee">
+        <PropertyRef Name="SId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Instructor_Person">
+    <End Role="Person" Type="Self.Person" Multiplicity="1" />
+    <End Role="Instructor" Type="Self.Instructor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="PId" />
+      </Principal>
+      <Dependent Role="Instructor">
+        <PropertyRef Name="Pid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Result_Instructor">
+    <End Role="Instructor" Type="Self.Instructor" Multiplicity="1" />
+    <End Role="Result" Type="Self.Result" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Instructor">
+        <PropertyRef Name="InId" />
+      </Principal>
+      <Dependent Role="Result">
+        <PropertyRef Name="InId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MCQ_MCQ">
+    <End Role="MCQ" Type="Self.MCQ" Multiplicity="1" />
+    <End Role="MCQ1" Type="Self.MCQ" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="MCQ">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MCQ1">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Result_MCQ">
+    <End Role="MCQ" Type="Self.MCQ" Multiplicity="1" />
+    <End Role="Result" Type="Self.Result" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MCQ">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Result">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Student_Person">
+    <End Role="Person" Type="Self.Person" Multiplicity="1" />
+    <End Role="Student" Type="Self.Student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="PId" />
+      </Principal>
+      <Dependent Role="Student">
+        <PropertyRef Name="PId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Result_Student">
+    <End Role="Student" Type="Self.Student" Multiplicity="1" />
+    <End Role="Result" Type="Self.Result" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="SId" />
+      </Principal>
+      <Dependent Role="Result">
+        <PropertyRef Name="SId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StudentEnrolled_Student">
+    <End Role="Student" Type="Self.Student" Multiplicity="1" />
+    <End Role="StudentEnrolled" Type="Self.StudentEnrolled" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="SId" />
+      </Principal>
+      <Dependent Role="StudentEnrolled">
+        <PropertyRef Name="SId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DB47Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Courses" EntityType="Self.Course" />
+    <EntitySet Name="Fees" EntityType="Self.Fee" />
+    <EntitySet Name="Instructors" EntityType="Self.Instructor" />
+    <EntitySet Name="MCQs" EntityType="Self.MCQ" />
+    <EntitySet Name="People" EntityType="Self.Person" />
+    <EntitySet Name="Results" EntityType="Self.Result" />
+    <EntitySet Name="Students" EntityType="Self.Student" />
+    <EntitySet Name="StudentEnrolleds" EntityType="Self.StudentEnrolled" />
+    <AssociationSet Name="FK_Fee_Course" Association="Self.FK_Fee_Course">
+      <End Role="Course" EntitySet="Courses" />
+      <End Role="Fee" EntitySet="Fees" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MCQ_Course" Association="Self.FK_MCQ_Course">
+      <End Role="Course" EntitySet="Courses" />
+      <End Role="MCQ" EntitySet="MCQs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StudentEnrolled_Course" Association="Self.FK_StudentEnrolled_Course">
+      <End Role="Course" EntitySet="Courses" />
+      <End Role="StudentEnrolled" EntitySet="StudentEnrolleds" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Fee_Student" Association="Self.FK_Fee_Student">
+      <End Role="Student" EntitySet="Students" />
+      <End Role="Fee" EntitySet="Fees" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Instructor_Person" Association="Self.FK_Instructor_Person">
+      <End Role="Person" EntitySet="People" />
+      <End Role="Instructor" EntitySet="Instructors" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Result_Instructor" Association="Self.FK_Result_Instructor">
+      <End Role="Instructor" EntitySet="Instructors" />
+      <End Role="Result" EntitySet="Results" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MCQ_MCQ" Association="Self.FK_MCQ_MCQ">
+      <End Role="MCQ" EntitySet="MCQs" />
+      <End Role="MCQ1" EntitySet="MCQs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Result_MCQ" Association="Self.FK_Result_MCQ">
+      <End Role="MCQ" EntitySet="MCQs" />
+      <End Role="Result" EntitySet="Results" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Student_Person" Association="Self.FK_Student_Person">
+      <End Role="Person" EntitySet="People" />
+      <End Role="Student" EntitySet="Students" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Result_Student" Association="Self.FK_Result_Student">
+      <End Role="Student" EntitySet="Students" />
+      <End Role="Result" EntitySet="Results" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StudentEnrolled_Student" Association="Self.FK_StudentEnrolled_Student">
+      <End Role="Student" EntitySet="Students" />
+      <End Role="StudentEnrolled" EntitySet="StudentEnrolleds" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
